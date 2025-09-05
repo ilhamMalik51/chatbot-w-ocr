@@ -1,10 +1,10 @@
 services:
   myvectordb:
-    image: myvectordb:0.3
+    image: myvectordb:0.5
     ports:
       -  "8000:8000"
   chatbot-ocr:
-    image: chatbot-ocr:0.5
+    image: chatbot-ocr:0.6
     ports:
       -  "8501:8501"
     env_file:
