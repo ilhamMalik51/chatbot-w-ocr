@@ -17,6 +17,34 @@ def extract_text_from_image(image_bytes: bytes):
 
     return result
 
+def extract_insight_from_text(text: str, llm: object):
+    """Extract insight from the text."""
+    system_prompt = [
+        "You are a JSON extractor professional.",
+        "You can extract key informations from online food receipt."
+    ]
+    prompt_input = """Extract the following free text into json format data.
+    ###Text:
+    {text}
+
+    ###JSON Format:
+    {{
+        "date_order": the order date,
+        "foods": the food order,
+        "restaurant": the restauran of the food order,
+        "total_expense": the total of expenses
+    }}""".format(text=text)
+    response = llm.models.generate_content(
+        model="gemini-2.5-flash-lite",
+        contents=prompt_input,
+        config=types.GenerateContentConfig(
+            system_instruction=system_prompt,
+            temperature=0
+        ),
+    )
+
+    return response.text
+
 def store_data_to_db(text: str, llm: object):
     """Insert data to the database"""
     vector_client = VectorClient(endpoint=os.getenv('VECTORDB_ENDPOINT'))

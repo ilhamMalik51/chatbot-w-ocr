@@ -4,7 +4,6 @@ import streamlit as st
 from google import genai
 from services.response_generator import response_generator
 
-
 st.title("Welcome to AI Application Chatroom")
 
 if "messages" not in st.session_state:

@@ -6,7 +6,7 @@ from google import genai
 from google.genai import types
 
 from services.ocr import (
-    extract_text_from_image, store_data_to_db
+    extract_text_from_image, store_data_to_db, extract_insight_from_text
 )
 
 load_dotenv()
@@ -16,9 +16,9 @@ file = st.file_uploader(label="Upload your image ...")
 
 if file != None:
     text = extract_text_from_image(file.read())
+    insight_text = extract_insight_from_text(text, llm=st.session_state.google_client)
     current_size = store_data_to_db(text=text, llm=st.session_state.google_client)
 
     st.write(f"## There are {current_size} documents")
-
-    st.write("## Page Content")
-    st.write(text)
+    st.write("## Extracted Insight Text")
+    st.markdown(insight_text)

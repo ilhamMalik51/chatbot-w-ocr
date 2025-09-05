@@ -9,6 +9,7 @@ from datetime import datetime
 from db.myvectordb import VectorClient
 
 def retrieve_data(text, llm):
+    """Retrieve data from vector database."""
     vector_client = VectorClient(os.getenv('VECTORDB_ENDPOINT'))
     query_vector = llm.models.embed_content(
         model="gemini-embedding-001",
@@ -18,6 +19,7 @@ def retrieve_data(text, llm):
     return vector_client.search(vector=query_vector, k=5)
 
 def response_generator(text_input, llm):
+    """Generate response with predifine system prompt and prompt"""
     relevant_context = retrieve_data(text=text_input, llm=llm)
     context_str = "\n\n### FOOD RECEIPT\n".join([ doc[0]['content'] for doc in relevant_context ])
     print(f"Context: {context_str}")
