@@ -206,4 +206,10 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-data/
+/asset
+/data
+/output
+
+**/__pycache__/
+
+.env

@@ -1,0 +1,7 @@
+google-genai==1.33.0
+numpy==2.3.2
+Pillow==11.3.0
+protobuf==6.32.0
+pytesseract==0.3.13
+python-dotenv==1.1.1
+streamlit==1.49.1
