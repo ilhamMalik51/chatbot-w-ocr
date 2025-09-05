@@ -20,17 +20,17 @@ def retrieve_data(text, llm):
 
 def response_generator(text_input, llm):
     """Generate response with predifine system prompt and prompt"""
-    relevant_context = retrieve_data(text=text_input, llm=llm)
+    datetime_str = datetime.now().strftime("%Y-%m-%d")
+    relevant_context = retrieve_data(text=f"Today's Date: {datetime_str}" + text_input, llm=llm)
+    
     context_str = "\n\n### FOOD RECEIPT\n".join([ doc[0]['content'] for doc in relevant_context ])
     print(f"Context: {context_str}")
-
-    datetime_str = datetime.now().strftime("%Y-%m-%d")
+    
     system_prompt = [
         "You are a helpful assistant.",
-        "Your answer should be from the provided historical receipt, concise, and straight to the point.",
+        "Your answer should be from the provided historical receipt and concise",
         f"Today's Date {datetime_str}"
     ]
-
     prompt_input = f"""Use the following historical food online receipt and chat history to improve your answer.
     
     Context:
@@ -40,11 +40,11 @@ def response_generator(text_input, llm):
     {text_input}"""
 
     response = llm.models.generate_content_stream(
-        model="gemini-2.5-flash-lite",
+        model="gemini-2.5-flash",
         contents=prompt_input,
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
-            temperature=0
+            temperature=0.3
         ),
     )
 

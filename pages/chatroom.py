@@ -6,6 +6,9 @@ from services.response_generator import response_generator
 
 st.title("Welcome to AI Application Chatroom")
 
+if "google_client" not in st.session_state:
+    st.session_state.google_client = genai.Client(api_key=os.getenv("API_KEY"))
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
